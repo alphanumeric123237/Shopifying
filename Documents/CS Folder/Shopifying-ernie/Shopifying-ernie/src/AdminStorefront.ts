@@ -87,3 +87,4 @@ export async function createShopifyCustomer(): Promise<void> {
 }
 
 createShopifyCustomer()
+//so sigma
