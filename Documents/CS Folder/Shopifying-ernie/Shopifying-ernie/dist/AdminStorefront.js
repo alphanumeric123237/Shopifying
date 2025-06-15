@@ -29,9 +29,10 @@ class AdminStoreFront {
     updateCustomer(id) {
     }
 }
-const SHOPIFY_DOMAIN = 'https://stringliteral.myshopify.com';
-const API_VERSION = '2025-04';
-const ADMIN_ACCESS_TOKEN = "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";
+const SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
+const API_VERSION = "2025-04";
+//Just uncomment this or smth
+//const ADMIN_ACCESS_TOKEN = "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";
 export function createShopifyCustomer() {
     return __awaiter(this, void 0, void 0, function* () {
         const url = `https://stringliteral.myshopify.com/admin/api/2025-04/customers.json`;
@@ -47,10 +48,10 @@ export function createShopifyCustomer() {
             }
         };
         const requestOptions = {
-            method: 'POST',
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                'X-Shopify-Access-Token': ADMIN_ACCESS_TOKEN,
+                "Content-Type": "application/json",
+                "X-Shopify-Access-Token": ADMIN_ACCESS_TOKEN,
             },
             body: JSON.stringify(customerData),
         };
@@ -58,13 +59,13 @@ export function createShopifyCustomer() {
             const response = yield fetch(url, requestOptions);
             const responseBody = yield response.json();
             if (!response.ok) {
-                console.error('❌ Shopify API error response:', responseBody);
+                console.error("❌ Shopify API error response:", responseBody);
                 throw new Error(`Shopify API error: ${responseBody.errors || JSON.stringify(responseBody)}`);
             }
-            console.log('✅ Customer created:', responseBody.customer);
+            console.log("✅ Customer created:", responseBody.customer);
         }
         catch (error) {
-            console.error('❌ Error creating customer:', error);
+            console.error("❌ Error creating customer:", error);
         }
     });
 }
