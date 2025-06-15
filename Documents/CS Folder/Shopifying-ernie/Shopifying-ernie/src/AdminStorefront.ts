@@ -44,8 +44,6 @@ class AdminStoreFront {
 
 const SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
 const API_VERSION = "2025-04";
-//Just uncomment this or smth then make sure to compile again
-//const ADMIN_ACCESS_TOKEN = "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";
 
 
 export async function createShopifyCustomer(): Promise<void> {

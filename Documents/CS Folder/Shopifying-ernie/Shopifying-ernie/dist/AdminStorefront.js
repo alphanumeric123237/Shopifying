@@ -31,8 +31,6 @@ class AdminStoreFront {
 }
 const SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
 const API_VERSION = "2025-04";
-//Just uncomment this or smth
-//const ADMIN_ACCESS_TOKEN = "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";
 export function createShopifyCustomer() {
     return __awaiter(this, void 0, void 0, function* () {
         const url = `https://stringliteral.myshopify.com/admin/api/2025-04/customers.json`;
