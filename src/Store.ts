@@ -1,4 +1,5 @@
 import { StringLiteral } from "typescript";
+import { Order } from "./Order.js";
 
 abstract class Store{
     private _storeName : String = '';
