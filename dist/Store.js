@@ -6,6 +6,8 @@ class Store {
         this.ctx = this.canvas.getContext("2d");
         this.products = [];
         this.cart = [];
+        this._admins = [];
+        this._customers = [];
         this.products = product;
         this.draw();
         this.displayProducts();
@@ -60,16 +62,40 @@ class Store {
             alert(`Cart:\n${this.cart.map(p => `${p.name} - $${p.price.toFixed(2)}`).join("\n")}`);
         }
     }
+    // a login validator helps identify whether the user is an admin or customer
     login(email, password) {
-        if (!email || !password) {
-            return false;
+        for (let i = 0; i < this._admins.length; i++) {
+            const admin = this._admins[i];
+            if (admin.email === email && admin.password === password) {
+                return "Welcome Admin.";
+            }
         }
-        else if (!email && !password) {
-            return false;
+        for (let i = 0; i < this._customers.length; i++) {
+            const customer = this._customers[i];
+            if (customer.email === email && customer.password === password) {
+                return "Welcome Customer";
+            }
         }
-        else {
-            return true;
+        return "Login failed, please retry or create account";
+    }
+    // it helps to create a new account
+    // and push it to the customer array
+    createAccount(email, password) {
+        for (let i = 0; i < this._customers.length; i++) {
+            if (this._customers[i].email === email) {
+                return false;
+            }
         }
+        const newCustomer = {
+            email: email,
+            password: password,
+            role: "Customer",
+            orderHistory: [],
+            address: "",
+            name: ""
+        };
+        this._customers[this._customers.length] = newCustomer;
+        return true;
     }
 }
 //# sourceMappingURL=Store.js.map
