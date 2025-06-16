@@ -8,6 +8,7 @@ class AdminStoreFront {
     
   }
 
+  
   private changeStoreDetails() : void {
 
   }
