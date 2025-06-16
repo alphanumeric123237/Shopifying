@@ -1,81 +1,56 @@
-interface Product{
-    name: string;
-    id: string;
-    price: number;
-    color: string;
-}
-
-
-class Store{
-    private storeName: string = '';
-    private storeBanner: string;
-    private canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    private ctx = this.canvas.getContext("2d")!;
-    private products: Product[] = [];
-    private cart: Product[] = [];
-
-    public constructor(product: Product[]){
+"use strict";
+class Store {
+    constructor(product) {
+        this.storeName = '';
+        this.canvas = document.getElementById("canvas");
+        this.ctx = this.canvas.getContext("2d");
+        this.products = [];
+        this.cart = [];
         this.products = product;
         this.draw();
         this.displayProducts();
         this.canvas.addEventListener("click", this.handleClick.bind(this));
-
-        
     }
-
-    public draw(): void{
+    draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.fillRect(0, 0, this.canvas.width, 80);
-
         this.ctx.fillText(this.storeBanner, 30, 50);
-
         this.ctx.beginPath();
         this.ctx.arc(this.canvas.width - 50, 40, 25, 0, Math.PI * 2);
         this.ctx.fill();
         this.ctx.fillStyle = "#fff";
         this.ctx.fillText("🛒", this.canvas.width - 62, 48);
         this.ctx.fillText(`${this.cart.length}`, this.canvas.width - 30, 48);
-
-
-
     }
-
-    public displayProducts(): void{
+    displayProducts() {
         let x = 50;
         let y = 120;
-
-        for (const products of this.products){
+        for (const products of this.products) {
             this.ctx.fillStyle = "#fff";
             this.ctx.fillRect(x, y, 200, 150);
             this.ctx.strokeStyle = "#ccc";
             this.ctx.strokeRect(x, y, 200, 150);
         }
     }
-
-    public handleClick(mouse: MouseEvent): void{
+    handleClick(mouse) {
         const rect = this.canvas.getBoundingClientRect();
         const mx = mouse.clientX - rect.left;
         const my = mouse.clientY - rect.top;
-
         let x = 50;
         let y = 120;
-
-        for (const product of this.products){
+        for (const product of this.products) {
             const btnX = x + 10;
             const btnY = y + 120;
             const btnW = 180;
             const btnH = 20;
-
-            if (mx >= btnX && mx <= btnX + btnW && my >= btnY && my <= btnY + btnH){
+            if (mx >= btnX && mx <= btnX + btnW && my >= btnY && my <= btnY + btnH) {
                 this.cart.push(product);
                 this.draw();
                 this.displayProducts();
                 return;
             }
-
             x += 250;
-            if (x + 200 > this.canvas.width){
+            if (x + 200 > this.canvas.width) {
                 x = 50;
                 y += 200;
             }
@@ -85,20 +60,16 @@ class Store{
             alert(`Cart:\n${this.cart.map(p => `${p.name} - $${p.price.toFixed(2)}`).join("\n")}`);
         }
     }
-
-    public login(email: string, password: number): boolean{
-        if (!email || !password){
-            return false; 
-        }
-        else if (!email && !password){
+    login(email, password) {
+        if (!email || !password) {
             return false;
         }
-        else{
+        else if (!email && !password) {
+            return false;
+        }
+        else {
             return true;
         }
     }
-
-    /*public createAccount(email: string, password: number): boolean{
-        
-    }*/
 }
+//# sourceMappingURL=Store.js.map

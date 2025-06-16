@@ -1,6 +1,9 @@
 class CustomerStorefront{
     private customerID: string;
 
+    public constructor(){
+        
+    }
     private checkOrderStatus(): string{
 
     }

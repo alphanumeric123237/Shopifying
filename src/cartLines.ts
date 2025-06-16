@@ -3,4 +3,7 @@ class CartLines{
     protected _merchID: string;
     protected _productQuantity: number;
 
+    public constructor(cartLineID: string, merchID: string, productQuantity: number){
+
+    }
 }
