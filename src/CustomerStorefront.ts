@@ -1,6 +1,16 @@
 class CustomerStoreFront {
     private customerID : string;
 
+    public get customerID() : string{
+
+    }
+
+    public get email() : string{
+
+    }
+
+    public get 
+
     private checkOrderStatus() : string {
 
     }
@@ -31,5 +41,9 @@ class CustomerStoreFront {
 
     protected redirectedToCheckout() : void {
         
+    }
+
+    private returnOption() : string {
+
     }
 }
