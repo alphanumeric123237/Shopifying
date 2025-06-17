@@ -1,6 +1,6 @@
 import { Order } from "./Order.js";
-import { Cart } from "./Cart.js";
-import { Checkout } from "./Checkout.js";
+import { Cart } from "./cart.js";
+import { Checkout } from "./checkout.js";
 
 class CustomerStoreFront {
     private _customerID : string;

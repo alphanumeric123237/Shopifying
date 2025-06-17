@@ -1,0 +1,63 @@
+<html>
+    <body>
+        <button type="button" id="to-product-editor">Edit Products</button>
+        <button type="button" id="to-manage-orders">Manage Orders</button>
+
+        <div id="product-editor" hidden="true">
+            <button type="button" id="change-store-details">Change Store Details</button>
+            <button type="button" id="add-product">Add a Product</button>
+            <button type="button" id="remove-product">Remove a Product</button>
+            <button type="button" id="edit-product">Edit a Product</button>
+            <br>
+            <button type="button" id="back-to-main" hidden="true">back</button>
+
+            <div id="store-settings" hidden="true">
+                <label for="store-name">Store Name: </label>
+                <input type="text" id="store-name"/>
+                <button type="button" id="save-settings">Save</button>
+            </div>
+            <div id="add-product-customizer" hidden="true">
+                <label for="add-title">Product Name: </label>
+                <input type="text" id="add-product-name"/>
+                <label for="add-desc">Description: </label>
+                <input type="text" id="add-desc"/>
+                <label for="add-inventory">Inventory: </label>
+                <input type="number" id="add-inventory"/>
+                <label for="add-price">Listed Price: </label>
+                <input type="number" id="add-price"/>
+    
+                <button type="button" id="finalize-add">Add Product</button>
+            </div>
+            <div id="edit-product-customizer" hidden="true">
+                <label for="edit-title">Product Name: </label>
+                <input type="text" id="add-product-name"/>
+                <label for="edit-desc">Description: </label>
+                <input type="text" id="edit-desc"/>
+                <label for="edit-inventory">Inventory: </label>
+                <input type="number" id="edit-inventory"/>
+                <label for="edit-price">Listed Price: </label>
+                <input type="number" id="edit-price"/>
+
+                <button type="button" id="finalize-edit">Edit Product</button>
+            </div>
+        </div>
+
+        <div id="manage-orders" hidden="true">
+            <button type="button" id="back-to-main">back</button>
+            <br>
+            <button type="button" id="order">Order 1</button>
+
+            <div id="order-details" hidden="true">
+                <button type="button" id="back-to-orders">back</button>
+                <h2 id="customer-name"></h2>
+                <p id="destination"></p>
+                <p id="mailing-place"></p>
+                <p id="shipping-time"></p>
+                <br>
+                <h2 id="total-price"></h2>
+                <img id="order-status"/>
+            </div>
+        </div>
+        <script src="AdminStorefront.js"></script>
+    </body>
+</html>
