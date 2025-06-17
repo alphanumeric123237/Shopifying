@@ -6,6 +6,12 @@ export class Checkout {
     private _cart : Cart;
     private webURL: string;
     private _userEmail: string;
+  
+
+    public constructor(cart: Cart, userEmail: string){
+        this._cart = cart;
+        this._userEmail = userEmail;
+    }
 
 
     protected redirectToCheckout() : void{
