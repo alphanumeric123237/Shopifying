@@ -1,29 +1,32 @@
 import { CartLines } from "./cartLines";
+import { v4 as uuidv4 } from "uuid";
 
-class Cart extends CartLines{
-    private cartID: string[]
-    private cartLines: CartLines[];
+export class Cart {
+    private _cartID : string;
+    private _cartLines : CartLines[];
 
-    public addLine(merchID: string, merchQuantity: number): void{
+    public constructor() {
+        this._cartID = uuidv4();
+    }
 
+    public addLine(merchID : string, merchQuantity: number) : void{
+        const newLine = new CartLines(uuidv4(), merchID, merchQuantity);
+        this._cartLines = [...this._cartLines, newLine];
+    }
+
+    public clearCart(): void{
+        this._cartLines = [];
     }
     
-    public displayCart(): void{
-        if (this.cartLines.length === 0){
-            alert("This cart is empty");
-            return;
-        }
-        this.cartLines.forEach(line => {
-            console.log(line.toString());
-        })
+    public get total(): number {
+        return this._cartLines.length;
     }
 
-    public getTotalQuantity(): number{
-        return this.cartLines.reduce((total, line) => total + line.productQuantity, 0)
+    public get CartID(): string {
+        return this._cartID;
     }
 
-    public removeLine(merchID: string): void {
-        this.cartLines = this.cartLines.filter(line => line.merchID !== merchID);
-        this.cartID = this.cartLines.map(line => line.cartLineID);
+    public isEmpty(): boolean {
+        return this._cartLines.length === 0;
     }
 }

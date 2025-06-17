@@ -24,7 +24,7 @@ interface Admin extends User{
     role: Role;
 }
 
-class Store{
+export class Store{
     private storeName: string = '';
     private storeBanner: string;
     private canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -34,31 +34,49 @@ class Store{
     private _admins: User[] = [];
     private _customers: Customer[] = [];
 
-    public constructor(product: Product[]){
-        this.products = product;
-        this.draw();
-        this.displayProducts();
-        this.canvas.addEventListener("click", this.handleClick.bind(this));
+    private button = {
+        x: 100,
+        y: 60,
+        width: 100,
+        height: 40,
+        radius: 10,
+        text: "Add to Cart"
+    };
+    
+    public constructor() {
+        const canvasElement = document.getElementById("canvas") as HTMLCanvasElement | null;
 
-        
+        if (!canvasElement) {
+            throw new Error("Canvas element not found");
+        }
+
+        const context = canvasElement.getContext("2d");
+        if (!context) {
+            throw new Error("2D context not supported");
+        }
     }
+    private drawAddToCartButton(): void {
+        const { x, y, width, height, radius, text } = this.button;
 
-    public draw(): void{
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.ctx.fillRect(0, 0, this.canvas.width, 80);
-
-        this.ctx.fillText(this.storeBanner, 30, 50);
-
+        this.ctx.fillStyle = "#28a745";
         this.ctx.beginPath();
-        this.ctx.arc(this.canvas.width - 50, 40, 25, 0, Math.PI * 2);
+        this.ctx.moveTo(x + radius, y);
+        this.ctx.lineTo(x + width - radius, y);
+        this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        this.ctx.lineTo(x + width, y + height - radius);
+        this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        this.ctx.lineTo(x + radius, y + height);
+        this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        this.ctx.lineTo(x, y + radius);
+        this.ctx.quadraticCurveTo(x, y, x + radius, y);
+        this.ctx.closePath();
         this.ctx.fill();
-        this.ctx.fillStyle = "#fff";
-        this.ctx.fillText("🛒", this.canvas.width - 62, 48);
-        this.ctx.fillText(`${this.cart.length}`, this.canvas.width - 30, 48);
 
-
-
+        this.ctx.fillStyle = "white";
+        this.ctx.font = "16px Arial";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle";
+        this.ctx.fillText(text, x + width / 2, y + height / 2);
     }
 
     public displayProducts(): void{
@@ -73,39 +91,22 @@ class Store{
         }
     }
 
-    public handleClick(mouse: MouseEvent): void{
+    private handleClick(event: MouseEvent): void {
         const rect = this.canvas.getBoundingClientRect();
-        const mx = mouse.clientX - rect.left;
-        const my = mouse.clientY - rect.top;
+        const clickX = event.clientX - rect.left;
+        const clickY = event.clientY - rect.top;
 
-        let x = 50;
-        let y = 120;
+        const { x, y, width, height } = this.button;
 
-        for (const product of this.products){
-            const btnX = x + 10;
-            const btnY = y + 120;
-            const btnW = 180;
-            const btnH = 20;
-
-            if (mx >= btnX && mx <= btnX + btnW && my >= btnY && my <= btnY + btnH){
-                this.cart.push(product);
-                this.draw();
-                this.displayProducts();
-                return;
-            }
-
-            x += 250;
-            if (x + 200 > this.canvas.width){
-                x = 50;
-                y += 200;
-            }
-        }
-        const dist = Math.hypot(mx - (this.canvas.width - 50), my - 40);
-        if (dist <= 25) {
-            alert(`Cart:\n${this.cart.map(p => `${p.name} - $${p.price.toFixed(2)}`).join("\n")}`);
+        if (
+            clickX >= x &&
+            clickX <= x + width &&
+            clickY >= y &&
+            clickY <= y + height
+        ) {
+            alert("Item added to cart!");
         }
     }
-
     // a login validator helps identify whether the user is an admin or customer
     public login(email: string, password: string): string{
         for (let i = 0; i < this._admins.length; i++){

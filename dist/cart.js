@@ -1,18 +1,24 @@
 import { CartLines } from "./cartLines";
-class Cart extends CartLines {
+import { v4 as uuidv4 } from "uuid";
+export class Cart {
+    constructor() {
+        this._cartID = uuidv4();
+    }
     addLine(merchID, merchQuantity) {
+        const newLine = new CartLines(uuidv4(), merchID, merchQuantity);
+        this._cartLines = [...this._cartLines, newLine];
     }
-    displayCart() {
-        if (this.cartLines.length === 0) {
-            alert("This cart is empty");
-            return;
-        }
-        this.cartLines.forEach(line => {
-            console.log(line.toString());
-        });
+    clearCart() {
+        this._cartLines = [];
     }
-    getTotalQuantity() {
-        return this.cartLines.reduce((total, line) => total + line.productQuantity, 0);
+    get total() {
+        return this._cartLines.length;
+    }
+    get CartID() {
+        return this._cartID;
+    }
+    isEmpty() {
+        return this._cartLines.length === 0;
     }
 }
 //# sourceMappingURL=cart.js.map
