@@ -24,7 +24,7 @@ interface Admin extends User{
     role: Role;
 }
 
-class Store{
+export class Store{
     private storeName: string = '';
     private storeBanner: string;
     private canvas = document.getElementById("canvas") as HTMLCanvasElement;

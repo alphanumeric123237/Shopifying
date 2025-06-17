@@ -15,7 +15,12 @@ export class Order {
     private _shippingDate: Date;
     private _deliveryDate: Date;
 
-    public constructor(){
+    public constructor(orderID: number, customerName: string, totalAmount: number, orderDate: Date){
+        this._orderID = orderID;
+        this._customerName = customerName;
+        this._totalAmount = totalAmount;
+        this._orderDate = orderDate;
+
         // since it always starts at "Pending" stage
         // so I make it equals to "Pending"
         this._orderStatus = "Pending";
