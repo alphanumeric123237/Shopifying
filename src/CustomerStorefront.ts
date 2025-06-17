@@ -1,4 +1,3 @@
-import { Store } from "./Store.js";
 import { Order } from "./Order.js";
 import { Cart } from "./Cart.js";
 import { Checkout } from "./Checkout.js";
