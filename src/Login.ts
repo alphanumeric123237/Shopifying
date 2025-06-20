@@ -9,7 +9,6 @@ interface Customer extends User {
   role: Role;
   orderHistory: string[];
   address: string;
-  name: string;
 }
 
 interface Admin extends User {
@@ -17,34 +16,29 @@ interface Admin extends User {
 }
 
 class Login {
-  private _admins: Admin[] = [
+    // fixed admins
+    private _admins: Admin[] = [
     { email: "admin1@example.com", password: "adminpass1", role: "Admin" },
     { email: "admin2@example.com", password: "adminpass2", role: "Admin" },
   ];
 
   private _customers: Customer[] = [
-    // Example customer
     {
       email: "customer1@example.com",
       password: "custpass1",
       role: "Customer",
-      orderHistory: [],
       address: "",
-      name: "",
+      orderHistory: []
     },
   ];
 
-  constructor() {
-    this.setupEventListeners();
-  }
-
-  private setupEventListeners() {
-    const loginBtn = document.getElementById("login");
-    const createAccountBtn = document.getElementById("create-new-account");
+  public constructor() {
+    // get the button from the html
+    const loginBtn = document.getElementById("login") as HTMLButtonElement;
 
     loginBtn?.addEventListener("click", (e) => {
-      e.preventDefault(); // Prevent form submission if inside a form
-      const inputs = this.getInputValues();
+      e.preventDefault(); 
+      const inputs = this.InputValues;
       if (!inputs) return;
 
       const role = this.login(inputs.email, inputs.password);
@@ -58,27 +52,29 @@ class Login {
       }
     });
 
-    createAccountBtn?.addEventListener("click", (e) => {
-      e.preventDefault();
-      const inputs = this.getInputValues();
-      if (!inputs) return;
-
-      const success = this.createAccount(inputs.email, inputs.password);
-      if (success) {
-        alert("Account created! You can now log in.");
-      } else {
-        alert("Account creation failed. Email already exists.");
-      }
-    });
+    this.loadCustomers();
   }
 
-  private getInputValues(): { email: string; password: string } | null {
+  private get InputValues(): {email: string; password: string} | null {
     const emailInput = document.getElementById("email") as HTMLInputElement | null;
     const passwordInput = document.getElementById("password") as HTMLInputElement | null;
-    if (!emailInput || !passwordInput) return null;
+
+    if (!emailInput || !passwordInput) {
+        return null;
+    }
+
     return { email: emailInput.value, password: passwordInput.value };
   }
 
+  // this will load the stored customers every time the web page runs
+  private loadCustomers(): void {
+    const customerData = localStorage.getItem("customers");
+    if (customerData) {
+        this._customers = JSON.parse(customerData);
+    }
+  }
+
+  // identify whether the login user is a customer or an admin
   public login(email: string, password: string): Role {
     for (const admin of this._admins) {
       if (admin.email === email && admin.password === password) {
@@ -93,24 +89,6 @@ class Login {
     }
 
     return "None";
-  }
-
-  public createAccount(email: string, password: string): boolean {
-    if (this._customers.some((c) => c.email === email)) {
-      return false; // email already taken
-    }
-
-    const newCustomer: Customer = {
-      email,
-      password,
-      role: "Customer",
-      orderHistory: [],
-      address: "",
-      name: "",
-    };
-
-    this._customers.push(newCustomer);
-    return true;
   }
 }
 

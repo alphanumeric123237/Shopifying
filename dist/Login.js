@@ -1,29 +1,25 @@
 "use strict";
 class Login {
     constructor() {
+        // fixed admins
         this._admins = [
             { email: "admin1@example.com", password: "adminpass1", role: "Admin" },
             { email: "admin2@example.com", password: "adminpass2", role: "Admin" },
         ];
         this._customers = [
-            // Example customer
             {
                 email: "customer1@example.com",
                 password: "custpass1",
                 role: "Customer",
-                orderHistory: [],
                 address: "",
-                name: "",
+                orderHistory: []
             },
         ];
-        this.setupEventListeners();
-    }
-    setupEventListeners() {
+        // get the button from the html
         const loginBtn = document.getElementById("login");
-        const createAccountBtn = document.getElementById("create-new-account");
         loginBtn === null || loginBtn === void 0 ? void 0 : loginBtn.addEventListener("click", (e) => {
-            e.preventDefault(); // Prevent form submission if inside a form
-            const inputs = this.getInputValues();
+            e.preventDefault();
+            const inputs = this.InputValues;
             if (!inputs)
                 return;
             const role = this.login(inputs.email, inputs.password);
@@ -37,27 +33,24 @@ class Login {
                 alert("Login failed. Please check your email or password.");
             }
         });
-        createAccountBtn === null || createAccountBtn === void 0 ? void 0 : createAccountBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            const inputs = this.getInputValues();
-            if (!inputs)
-                return;
-            const success = this.createAccount(inputs.email, inputs.password);
-            if (success) {
-                alert("Account created! You can now log in.");
-            }
-            else {
-                alert("Account creation failed. Email already exists.");
-            }
-        });
+        this.loadCustomers();
     }
-    getInputValues() {
+    get InputValues() {
         const emailInput = document.getElementById("email");
         const passwordInput = document.getElementById("password");
-        if (!emailInput || !passwordInput)
+        if (!emailInput || !passwordInput) {
             return null;
+        }
         return { email: emailInput.value, password: passwordInput.value };
     }
+    // this will load the stored customers every time the web page runs
+    loadCustomers() {
+        const customerData = localStorage.getItem("customers");
+        if (customerData) {
+            this._customers = JSON.parse(customerData);
+        }
+    }
+    // identify whether the login user is a customer or an admin
     login(email, password) {
         for (const admin of this._admins) {
             if (admin.email === email && admin.password === password) {
@@ -70,21 +63,6 @@ class Login {
             }
         }
         return "None";
-    }
-    createAccount(email, password) {
-        if (this._customers.some((c) => c.email === email)) {
-            return false; // email already taken
-        }
-        const newCustomer = {
-            email,
-            password,
-            role: "Customer",
-            orderHistory: [],
-            address: "",
-            name: "",
-        };
-        this._customers.push(newCustomer);
-        return true;
     }
 }
 // Instantiate Login when DOM is ready
