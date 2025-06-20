@@ -1,11 +1,16 @@
 import { Order } from "./Order.js";
-import { Cart } from "./Cart.js";
+import { Cart } from "./cart.js";
 
 export class Checkout {
     private ID : string;
     private _cart : Cart;
     private webURL: string;
     private _userEmail: string;
+
+    public constructor(cart: Cart, userEmail: string){
+        this._cart = cart;
+        this._userEmail = userEmail
+    }
 
 
     protected redirectToCheckout() : void{

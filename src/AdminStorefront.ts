@@ -32,6 +32,45 @@ class Customer {
   }
 }
 
+// Grabbing elements
+const btnProductEditor = document.getElementById("btn-product-editor")!;
+const btnManageOrders = document.getElementById("btn-manage-orders")!;
+const productEditorSection = document.getElementById("product-editor-section")!;
+const ordersSection = document.getElementById("orders-section")!;
+const backFromEditor = document.getElementById("back-from-editor")!;
+const backFromOrders = document.getElementById("back-from-orders")!;
+
+// Toggle to product editor
+btnProductEditor.addEventListener("click", () => {
+  productEditorSection.hidden = false;
+  ordersSection.hidden = true;
+  btnProductEditor.hidden = true;
+  btnManageOrders.hidden = true;
+});
+
+// Toggle to manage orders
+btnManageOrders.addEventListener("click", () => {
+  ordersSection.hidden = true;
+  ordersSection.hidden = false;
+  btnProductEditor.hidden = true;
+  btnManageOrders.hidden = true;
+});
+
+// Back from product editor
+backFromEditor.addEventListener("click", () => {
+  productEditorSection.hidden = true;
+  btnProductEditor.hidden = false;
+  btnManageOrders.hidden = false;
+});
+
+// Back from orders
+backFromOrders.addEventListener("click", () => {
+  ordersSection.hidden = true;
+  btnProductEditor.hidden = false;
+  btnManageOrders.hidden = false;
+});
+
+
 class UpdatedCustomerInfo {
   private firstName ?: string;
   private lastName ?: string

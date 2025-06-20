@@ -1,5 +1,9 @@
-import { Order } from "./Order";
+import { Order } from "./Order.js";
 export class Checkout {
+    constructor(cart, userEmail) {
+        this._cart = cart;
+        this._userEmail = userEmail;
+    }
     redirectToCheckout() {
     }
     placeOrder() {
