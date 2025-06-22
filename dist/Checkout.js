@@ -1,4 +1,6 @@
 "use strict";
 class Checkout {
+    redirectToCheckout() {
+    }
 }
-//# sourceMappingURL=Checkout.js.map
+//# sourceMappingURL=checkout.js.map
