@@ -1,27 +1,8 @@
-type Role = "Customer" | "Admin" | "None"
-
-
 interface Product{
     name: string;
     id: string;
     price: number;
     color: string;
-}
-
-interface User{
-    email: string
-    password: string
-}
-
-interface Customer extends User{
-    role : Role;
-    orderHistory: string[];
-    address: string;
-    name: string;
-}
-
-interface Admin extends User{
-    role: Role;
 }
 
 export class Store{
@@ -31,8 +12,6 @@ export class Store{
     private ctx = this.canvas.getContext("2d")!;
     private products: Product[] = [];
     private cart: Product[] = [];
-    private _admins: User[] = [];
-    private _customers: Customer[] = [];
 
     private button = {
         x: 100,
@@ -106,45 +85,5 @@ export class Store{
         ) {
             alert("Item added to cart!");
         }
-    }
-    // a login validator helps identify whether the user is an admin or customer
-    public login(email: string, password: string): string{
-        for (let i = 0; i < this._admins.length; i++){
-            const admin = this._admins[i];
-            if(admin.email === email && admin.password === password){
-                return "Welcome Admin."
-            }
-        }
-
-        for (let i = 0; i < this._customers.length; i++){
-            const customer = this._customers[i];
-            if (customer.email === email && customer.password === password){
-                return "Welcome Customer"
-            }
-        }
-
-        return "Login failed, please retry or create account"
-    }
-
-    // it helps to create a new account
-    // and push it to the customer array
-    public createAccount(email: string, password: string): boolean{
-        for (let i = 0; i < this._customers.length; i++){
-            if (this._customers[i].email === email){
-                return false;
-            }
-        }
-
-        const newCustomer : Customer ={
-            email: email,
-            password: password,
-            role: "Customer",
-            orderHistory: [],
-            address: "",
-            name: ""
-        }
-
-        this._customers[this._customers.length] = newCustomer;
-        return true;
     }
 }

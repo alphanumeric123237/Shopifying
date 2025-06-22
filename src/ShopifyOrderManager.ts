@@ -9,7 +9,7 @@ export class ShopifyOrderManager {
     }
 
     // remove an order when a customer cancels an order
-    private removeOrder(order: Order): boolean{
+    private removeOrder (order: Order): boolean{
         let orderFound = false;
 
         for (let i = 0; i < this._orders.length; i++){

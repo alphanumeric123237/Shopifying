@@ -1,14 +1,47 @@
 <html>
     <link rel="stylesheet" href="final.css">
-    <body>
-        <canvas id="canvas" width="1000" height="700"></canvas>
-        <input type="text" id="email">
-        <input type="text" id="password">
-        <div>
-            
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to cart</title>
+    <link rel="shortcut icon" href="MM.png" type="image/x-icon">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <span id="logo-title" title="Shopping Cart">Shopify API</span>
         </div>
-        <button id="proceed">Proceed to Checkout</button>
-        <button id=".add-to-cart">Add to Cart</button>  
-        <script src="Store.js"></script>
+        <button class="create" id="create" onclick="location.href='newAccount.html'">Sign in</button>
+        <button class="login" id="login.html" onclick="location.href='login.html'">Login</button>
+        <a href="cart.html">
+        <div class="cart" title="Cart">
+            <p id="cart-count">0</p>
+            <i class='bx bx-cart cart' id="icart"></i>
+        </div>
+        </a>
+
+        <div class="cart-container">
+            <div class="cart-title">Cart Items</div>
+            <div class="cart-content">
+        </div>
+    <i name="close" id="cart-close" class="bi bi-x"></i>
+            </div>
+            <input type="text">
+            <div class="total">
+                <div class="total-title">Total</div>
+                <div class="total-price">Rs.0</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+        
+    </main>
+        <script src="../dist/cart.js"></script>
     </body>
 </html>

@@ -42,7 +42,7 @@ class CustomerStoreFront {
             alert("Your cart is empty.");
             return;
         }
-        this._checkout = new Checkout(this._cart, this._customerID);
+        this._checkout = new Checkout(this._cart, this._email);
         const newOrder = this._checkout.placeOrder();
         this._orders[this._orders.length] = newOrder;
     }

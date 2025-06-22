@@ -5,8 +5,6 @@ export class Store {
         this.ctx = this.canvas.getContext("2d");
         this.products = [];
         this.cart = [];
-        this._admins = [];
-        this._customers = [];
         this.button = {
             x: 100,
             y: 60,
@@ -66,41 +64,6 @@ export class Store {
             clickY <= y + height) {
             alert("Item added to cart!");
         }
-    }
-    // a login validator helps identify whether the user is an admin or customer
-    login(email, password) {
-        for (let i = 0; i < this._admins.length; i++) {
-            const admin = this._admins[i];
-            if (admin.email === email && admin.password === password) {
-                return "Welcome Admin.";
-            }
-        }
-        for (let i = 0; i < this._customers.length; i++) {
-            const customer = this._customers[i];
-            if (customer.email === email && customer.password === password) {
-                return "Welcome Customer";
-            }
-        }
-        return "Login failed, please retry or create account";
-    }
-    // it helps to create a new account
-    // and push it to the customer array
-    createAccount(email, password) {
-        for (let i = 0; i < this._customers.length; i++) {
-            if (this._customers[i].email === email) {
-                return false;
-            }
-        }
-        const newCustomer = {
-            email: email,
-            password: password,
-            role: "Customer",
-            orderHistory: [],
-            address: "",
-            name: ""
-        };
-        this._customers[this._customers.length] = newCustomer;
-        return true;
     }
 }
 //# sourceMappingURL=Store.js.map

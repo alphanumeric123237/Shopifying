@@ -1,4 +1,3 @@
-import { Store } from "./Store.js";
 import { Order } from "./Order.js";
 import { Cart } from "./cart.js";
 import { Checkout } from "./checkout.js";
@@ -61,7 +60,7 @@ class CustomerStoreFront {
             return
         }
 
-        this._checkout = new Checkout(this._cart, this._customerID);
+        this._checkout = new Checkout(this._cart, this._email);
         const newOrder = this._checkout.placeOrder();
 
         this._orders[this._orders.length] = newOrder;
