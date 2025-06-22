@@ -1,23 +1,53 @@
 import { Order } from "./Order.js"
 
+/**
+ * Represents a Shopify customer with basic information.
+ */
 class Customer {
-  private firstName : string;
-  private lastName : string
-  private email : string;
-  private phoneNumber : string;
-  private verifiedEmail : boolean;
+  /** @private The customer's first name */
+  private firstName: string;
 
+  /** @private The customer's last name */
+  private lastName: string;
+
+  /** @private The customer's email address */
+  private email: string;
+
+  /** @private The customer's phone number */
+  private phoneNumber: string;
+
+  /** @private Whether the customer's email is verified */
+  private verifiedEmail: boolean;
+
+  /**
+   * @private
+   * Internal customer object formatted for Shopify API
+   * @property first_name - Customer's first name
+   * @property last_name - Customer's last name
+   * @property email - Customer's email
+   * @property phone - Customer's phone number
+   * @property verified_email - Email verification status
+   */
   private customer: {
     first_name: string;
-    last_name: string,
-    email: string,
-    phone: string,
-    verified_email: boolean
-  }
+    last_name: string;
+    email: string;
+    phone: string;
+    verified_email: boolean;
+  };
 
-  public constructor(first : string, last : string, email : string, phone : string, verification : boolean) {
+  /**
+   * Creates a new Customer instance.
+   *
+   * @param first - First name of the customer
+   * @param last - Last name of the customer
+   * @param email - Email address of the customer
+   * @param phone - Phone number of the customer
+   * @param verification - Whether the email is verified
+   */
+  public constructor(first: string, last: string, email: string, phone: string, verification: boolean) {
     this.firstName = first;
-    this.lastName  = last;
+    this.lastName = last;
     this.email = email;
     this.phoneNumber = phone;
     this.verifiedEmail = verification;

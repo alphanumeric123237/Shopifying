@@ -3,5 +3,7 @@ class Checkout {
 
     private webURL: string;
 
-    protected redirectToCheckout() : void
+    protected redirectToCheckout() : void {
+        
+    }
 }
