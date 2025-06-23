@@ -7,7 +7,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+/**
+ * Represents a Shopify customer with basic information.
+ */
 class Customer {
+    /**
+     * Creates a new Customer instance.
+     *
+     * @param first - First name of the customer
+     * @param last - Last name of the customer
+     * @param email - Email address of the customer
+     * @param phone - Phone number of the customer
+     * @param verification - Whether the email is verified
+     */
     constructor(first, last, email, phone, verification) {
         this.firstName = first;
         this.lastName = last;
@@ -34,21 +46,18 @@ class Product {
         this.image = image;
     }
 }
-class AdminStoreFront {
+export class AdminStoreFront {
     constructor() {
-        this.SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
-        this.API_VERSION = "2025-04";
-        this.ADMIN_ACCESS_TOKEN = "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";
-        this.url = `${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
+        this.url = `${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
     }
     getActiveOrders() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let orderQuery = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/orders.json?status=open`, {
+                let orderQuery = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/orders.json?status=open`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
                     }
                 });
                 if (!orderQuery.ok) {
@@ -65,10 +74,10 @@ class AdminStoreFront {
     addProduct(product) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let postProduct = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products.json`, {
+                let postProduct = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json`, {
                     method: "POST",
                     headers: {
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
                     },
                     body: JSON.stringify({ product })
                 });
@@ -86,10 +95,10 @@ class AdminStoreFront {
     removeProducts(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let removeRequest = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products/${id}.json`, {
+                let removeRequest = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products/${id}.json`, {
                     method: "DELETE",
                     headers: {
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                         "Content-Type": "application/json"
                     }
                 });
@@ -107,10 +116,10 @@ class AdminStoreFront {
     queryProduct(title) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let productQuery = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products.json?title=${encodeURIComponent(title)}`, {
+                let productQuery = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json?title=${encodeURIComponent(title)}`, {
                     method: "GET",
                     headers: {
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                         "Content-Type": "application/json"
                     }
                 });
@@ -131,11 +140,11 @@ class AdminStoreFront {
     editProcductInfo(id, image, title, variants, body_html, vendor, product_type, tags) {
         return __awaiter(this, void 0, void 0, function* () {
             let returnMsg = "Changed: ";
-            const searchQuery = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=id:${encodeURIComponent(id)}`, {
+            const searchQuery = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=id:${encodeURIComponent(id)}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+                    "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
                 }
             });
             const SEARCH = yield searchQuery.json();
@@ -173,11 +182,11 @@ class AdminStoreFront {
     retrieveLocationId(locationName) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                let fetchLocation = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/locations.json`, {
+                let fetchLocation = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/locations.json`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
                     }
                 });
                 if (!fetchLocation.ok) {
@@ -196,10 +205,10 @@ class AdminStoreFront {
             //get inventory item ID
             let inventoryItemID = "";
             try {
-                let fetchProduct = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products/${productId}.json`, {
+                let fetchProduct = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products/${productId}.json`, {
                     method: 'GET',
                     headers: {
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                         "Content-Type": "application/json"
                     }
                 });
@@ -213,10 +222,10 @@ class AdminStoreFront {
                 return "Encountered error: " + error;
             }
             try {
-                let fetchInventory = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/inventory_levels/set.json`, {
+                let fetchInventory = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/inventory_levels/set.json`, {
                     method: "POST",
                     headers: {
-                        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                         "Content-Type": "application/json"
                     },
                     body: JSON.stringify({
@@ -241,7 +250,7 @@ class AdminStoreFront {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                    "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                 },
                 body: JSON.stringify(customerData),
             };
@@ -262,11 +271,11 @@ class AdminStoreFront {
         return __awaiter(this, void 0, void 0, function* () {
             //searches for a customer with given email, when found, update them with given customer data 
             let returnMsg = "Changed:";
-            const searchQuery = yield fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`, {
+            const searchQuery = yield fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+                    "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
                 }
             });
             const SEARCH = yield searchQuery.json();
@@ -298,5 +307,6 @@ class AdminStoreFront {
         });
     }
 }
-export {};
+AdminStoreFront.SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
+AdminStoreFront.ADMIN_ACCESS_TOKEN = "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";
 //# sourceMappingURL=AdminStorefront.js.map

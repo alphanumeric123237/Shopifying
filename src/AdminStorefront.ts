@@ -1,23 +1,53 @@
 import { Order } from "./Order.js"
 
+/**
+ * Represents a Shopify customer with basic information.
+ */
 class Customer {
-  private firstName : string;
-  private lastName : string
-  private email : string;
-  private phoneNumber : string;
-  private verifiedEmail : boolean;
+  /** @private The customer's first name */
+  private firstName: string;
 
+  /** @private The customer's last name */
+  private lastName: string;
+
+  /** @private The customer's email address */
+  private email: string;
+
+  /** @private The customer's phone number */
+  private phoneNumber: string;
+
+  /** @private Whether the customer's email is verified */
+  private verifiedEmail: boolean;
+
+  /**
+   * @private
+   * Internal customer object formatted for Shopify API
+   * @property first_name - Customer's first name
+   * @property last_name - Customer's last name
+   * @property email - Customer's email
+   * @property phone - Customer's phone number
+   * @property verified_email - Email verification status
+   */
   private customer: {
     first_name: string;
-    last_name: string,
-    email: string,
-    phone: string,
-    verified_email: boolean
-  }
+    last_name: string;
+    email: string;
+    phone: string;
+    verified_email: boolean;
+  };
 
-  public constructor(first : string, last : string, email : string, phone : string, verification : boolean) {
+  /**
+   * Creates a new Customer instance.
+   *
+   * @param first - First name of the customer
+   * @param last - Last name of the customer
+   * @param email - Email address of the customer
+   * @param phone - Phone number of the customer
+   * @param verification - Whether the email is verified
+   */
+  public constructor(first: string, last: string, email: string, phone: string, verification: boolean) {
     this.firstName = first;
-    this.lastName  = last;
+    this.lastName = last;
     this.email = email;
     this.phoneNumber = phone;
     this.verifiedEmail = verification;
@@ -75,20 +105,18 @@ class Product {
   }
 }
 
-class AdminStoreFront {
-  private SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
-  private API_VERSION = "2025-04";
-  private ADMIN_ACCESS_TOKEN = "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";
-  private url = `${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
-
+export class AdminStoreFront {
+  public static SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
+  private static readonly ADMIN_ACCESS_TOKEN = "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";
+  private url = `${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
 
   private async getActiveOrders() : Promise<any> {
     try {
-      let orderQuery = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/orders.json?status=open`, {
+      let orderQuery = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/orders.json?status=open`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
         }
       });
       if (!orderQuery.ok) {
@@ -104,10 +132,10 @@ class AdminStoreFront {
   
   private async addProduct(product : Product) : Promise<any> {
     try {
-      let postProduct : any = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products.json`,{
+      let postProduct : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json`,{
         method : "POST",
         headers : {
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
         },
         body : JSON.stringify({product})
       });
@@ -124,10 +152,10 @@ class AdminStoreFront {
 
   protected async removeProducts(id: number) : Promise<any> {
     try {
-      let removeRequest : any = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products/${id}.json`, {
+      let removeRequest : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products/${id}.json`, {
         method : "DELETE",
         headers: {
-        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
         "Content-Type": "application/json"
         }
       });
@@ -143,10 +171,10 @@ class AdminStoreFront {
 
   protected async queryProduct(title: string) : Promise<any> {
     try {
-      let productQuery : any = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products.json?title=${encodeURIComponent(title)}`,{
+      let productQuery : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json?title=${encodeURIComponent(title)}`,{
         method : "GET",
         headers : {
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
           "Content-Type": "application/json"
         }
       });
@@ -183,12 +211,12 @@ class AdminStoreFront {
     tags ?: string, 
   ) : Promise<any> {
     let returnMsg = "Changed: "
-    const searchQuery : any = await fetch (`${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=id:${encodeURIComponent(id)}`,
+    const searchQuery : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=id:${encodeURIComponent(id)}`,
       {
         method : "GET",
         headers : {
           "Content-Type": "application/json",
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
         }
       });
       const SEARCH : any = await searchQuery.json();
@@ -225,11 +253,11 @@ class AdminStoreFront {
 
   protected async retrieveLocationId(locationName : string) : Promise<string> {
     try {
-      let fetchLocation : any = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/locations.json`,{
+      let fetchLocation : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/locations.json`,{
         method:"GET",
         headers : {
           "Content-Type": "application/json",
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
         }
       });
       if (!fetchLocation.ok) {
@@ -247,10 +275,10 @@ class AdminStoreFront {
     //get inventory item ID
     let inventoryItemID : string = "";
     try {
-      let fetchProduct : any = await fetch(`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/products/${productId}.json`,{
+      let fetchProduct : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products/${productId}.json`,{
         method: 'GET',
         headers: {
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
           "Content-Type": "application/json"
         }
       });
@@ -264,10 +292,10 @@ class AdminStoreFront {
       return "Encountered error: " + error; 
     }
     try {
-      let fetchInventory : any = await fetch (`${this.SHOPIFY_DOMAIN}/admin/api/2023-04/inventory_levels/set.json`,{
+      let fetchInventory : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/inventory_levels/set.json`,{
         method: "POST",
         headers: {
-          "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
           "Content-Type": "application/json"
         },
         body: JSON.stringify ({
@@ -291,7 +319,7 @@ class AdminStoreFront {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
       },
       body: JSON.stringify(customerData),
     };
@@ -314,12 +342,12 @@ class AdminStoreFront {
   protected async updateCustomer(email : string, first_name ?: string, last_name ?: string, newEmail ?: string, phone ?: string, verified ?: boolean) : Promise<any> {
     //searches for a customer with given email, when found, update them with given customer data 
     let returnMsg : string = "Changed:";
-    const searchQuery : any = await fetch (`${this.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`,
+    const searchQuery : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`,
     {
       method : "GET",
       headers : {
         "Content-Type": "application/json",
-        "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN
+        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
       }
     });
     const SEARCH : any = await searchQuery.json();
