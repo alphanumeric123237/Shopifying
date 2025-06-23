@@ -1,63 +1,103 @@
 <html>
-    <body>
-        <button type="button" id="to-product-editor">Edit Products</button>
-        <button type="button" id="to-manage-orders">Manage Orders</button>
+    <head>
+        <link rel="stylesheet" href="admin.css" />
+    </head>
+    <body class="body">
+        <button class="button" type="button" id="to-store-details">Change Store Details</button>
+        <button class="button" type="button" id="to-product-editor">Edit Products</button>
+        <button class="button" type="button" id="to-manage-orders">Manage Orders</button>
+        <button class="button" type="button" id="to-manage-customers">Manage Customers</button>
+
+        <div id="store-settings" hidden="true">
+            <label class="label" for="store-name">Store Name: </label>
+            <input class="input" type="text" id="store-name"/>
+            <button class="button" type="button" id="save-settings">Save</button>
+        </div>
 
         <div id="product-editor" hidden="true">
-            <button type="button" id="change-store-details">Change Store Details</button>
-            <button type="button" id="add-product">Add a Product</button>
-            <button type="button" id="remove-product">Remove a Product</button>
-            <button type="button" id="edit-product">Edit a Product</button>
+            <button class="button" type="button" id="add-product">Add a Product</button>
+            <button class="button" type="button" id="remove-product">Remove a Product</button>
+            <button class="button" type="button" id="edit-product">Edit a Product</button>
             <br>
-            <button type="button" id="back-to-main" hidden="true">back</button>
+            <button class="button" type="button" id="back-to-main" hidden="true">back</button>
 
-            <div id="store-settings" hidden="true">
-                <label for="store-name">Store Name: </label>
-                <input type="text" id="store-name"/>
-                <button type="button" id="save-settings">Save</button>
-            </div>
             <div id="add-product-customizer" hidden="true">
-                <label for="add-title">Product Name: </label>
-                <input type="text" id="add-product-name"/>
-                <label for="add-desc">Description: </label>
-                <input type="text" id="add-desc"/>
-                <label for="add-inventory">Inventory: </label>
-                <input type="number" id="add-inventory"/>
-                <label for="add-price">Listed Price: </label>
-                <input type="number" id="add-price"/>
+                <label class="label" for="add-title">Product Name: </label>
+                <input class="input" type="text" id="add-product-name"/>
+                <label class="label" for="add-image">Image: </label>
+                <input class="label" type="text" id="add-image"/>
+                <label class="label" for="add-variants">Variants ID: </label>
+                <input class="label" type="text" id="add-variants"/>
+                <label class="label" for="add-desc">Description: </label>
+                <input class="input" type="text" id="add-desc"/>
+                <label class="label" for="add-inventory">Inventory: </label>
+                <input class="input" type="number" id="add-inventory"/>
+                <label class="label" for="add-price">Listed Price: </label>
+                <input class="input" type="number" id="add-price"/>
+                <label class="label" for="add-vendor">Vendor: </label>
+                <input class="label" type="text" id="add-vendor"/>
+                <label class="label" for="add-product-type">Product Type: </label>
+                <input class="label" type="text" id="add-product-type"/>
+                <label class="label" for="add-tags">Tags: </label>
+                <input class="label" type="text" id="add-tags"/>
     
-                <button type="button" id="finalize-add">Add Product</button>
+                <button class="button" type="button" id="finalize-add">Add Product</button>
             </div>
             <div id="edit-product-customizer" hidden="true">
-                <label for="edit-title">Product Name: </label>
-                <input type="text" id="add-product-name"/>
-                <label for="edit-desc">Description: </label>
-                <input type="text" id="edit-desc"/>
-                <label for="edit-inventory">Inventory: </label>
-                <input type="number" id="edit-inventory"/>
-                <label for="edit-price">Listed Price: </label>
-                <input type="number" id="edit-price"/>
+                <label class="label" for="edit-title">Product Name: </label>
+                <input class="input" type="text" id="edit-product-name"/>
+                <label class="label" for="edit-image">Image: </label>
+                <input class="label" type="text" id="edit-image"/>
+                <label class="label" for="edit-variants">Variants ID: </label>
+                <input class="label" type="text" id="edit-variants"/>
+                <label class="label" for="edit-desc">Description: </label>
+                <input class="input" type="text" id="edit-desc"/>
+                <label class="label" for="edit-inventory">Inventory: </label>
+                <input class="input" type="number" id="edit-inventory"/>
+                <label class="label" for="edit-price">Listed Price: </label>
+                <input class="input" type="number" id="edit-price"/>
+                <label class="label" for="edit-vendor">Vendor: </label>
+                <input class="label" type="text" id="edit-vendor"/>
+                <label class="label" for="edit-product-type">Product Type: </label>
+                <input class="label" type="text" id="edit-product-type"/>
+                <label class="label" for="edit-tags">Tags: </label>
+                <input class="label" type="text" id="edit-tags"/>
 
-                <button type="button" id="finalize-edit">Edit Product</button>
+                <button class="button" type="button" id="finalize-edit">Edit Product</button>
             </div>
         </div>
 
         <div id="manage-orders" hidden="true">
-            <button type="button" id="back-to-main">back</button>
+            <button class="button" type="button" id="back-to-main">back</button>
             <br>
-            <button type="button" id="order">Order 1</button>
+            <button class="button" type="button" id="order">Order 1</button>
 
             <div id="order-details" hidden="true">
-                <button type="button" id="back-to-orders">back</button>
-                <h2 id="customer-name"></h2>
+                <button class="button" type="button" id="back-to-orders">back</button>
+                <button class="button" type="button" id="delete-order">Delete Order</button>
+                <h2 class="h2" id="customer-name"></h2>
                 <p id="destination"></p>
                 <p id="mailing-place"></p>
                 <p id="shipping-time"></p>
                 <br>
                 <h2 id="total-price"></h2>
+                <button class="button" type="button" id="check-inventory">Check Inventory</button>
                 <img id="order-status"/>
             </div>
         </div>
-        <script src="adminStorefront.ts"></script>
+
+        <div id="manage-customers" hidden="true">
+            <input class="input" type="text" id="customer-search"/>
+            <button class="button" type="button" id="search-customer">Search Customer</button>
+            <button class="button" type="button" id="add-customer">Add Customer</button>
+
+            <div id="customer-details" hidden="true">
+                <h2 class="h2" id="customer-details-name">Customer Name: </h2>
+                <p id="customer-details-email">Email: </p>
+                <p id="customer-details-phone">Phone #: </p>
+                <p id="customer-details-verified">Verified: </p>
+            </div>
+        </div>
+        <script src="adminStorefront.js"></script>
     </body>
 </html>
