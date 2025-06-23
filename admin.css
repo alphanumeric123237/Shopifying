@@ -1,0 +1,79 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #c6d6ba;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  background-color: rgb(110, 244, 66);
+  padding: 30px;
+  border-radius: 67px;
+  text-align: center;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+h2, label {
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-style: oblique;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+button {
+  background: #28770b;
+  border-radius: 999px;
+  box-shadow: #28770b 0 10px 20px -10px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 25px;
+  margin: 10px 5px;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0d5e39;
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.section {
+  background-color: rgba(110, 244, 66, 0.4);
+  padding: 20px;
+  border-radius: 25px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+img#order-status {
+  max-width: 100px;
+  display: block;
+  margin-top: 10px;
+}

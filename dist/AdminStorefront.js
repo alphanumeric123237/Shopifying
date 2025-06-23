@@ -253,7 +253,7 @@ class AdminStoreFront {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "X-Shopify-Access-Token": this.ADMIN_ACCESS_TOKEN,
+                    "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
                 },
                 body: JSON.stringify(customerData),
             };
@@ -310,5 +310,6 @@ class AdminStoreFront {
         });
     }
 }
-export {};
+AdminStoreFront.SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
+AdminStoreFront.ADMIN_ACCESS_TOKEN = "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";
 //# sourceMappingURL=AdminStorefront.js.map
