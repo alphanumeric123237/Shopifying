@@ -20,8 +20,7 @@ class Customer {
   private verifiedEmail: boolean;
 
   /**
-   * @private
-   * Internal customer object formatted for Shopify API
+   * @private Internal customer object formatted for Shopify API
    * @property first_name - Customer's first name
    * @property last_name - Customer's last name
    * @property email - Customer's email
@@ -62,22 +61,61 @@ class Customer {
   }
 }
 
+/**
+ * Represents a product with title, image, variants, and optional metadata.
+ */
 class Product {
+  /** The title of the product */
   private title : string;
+
+  /** The HTML description of the product (optional) */
   private body_html ?: string;
+
+  /** The vendor of the product (optional) */
   private vendor ?: string;
+
+  /** The type/category of the product (optional) */
   private product_type ?: string;
+
+  /** Comma-separated tags for the product (optional) */
   private tags ?: string;
+
+  /** The image associated with the product */
   private image : {
+    /** The URL of the product image */
     "src" : string;
   }
+
+  /**
+   * The list of product variants, each with options, price, and SKU
+   */
   private variants : {
+    /** The first option for the variant (e.g., size or color) */
     option1 : string;
+
+    /** The second option for the variant (optional) */
     option2: string | null;
+
+    /** The third option for the variant (optional) */
     option3: string | null;
+
+    /** Price of the variant as a string */
     price : string;
+
+    /** SKU (Stock Keeping Unit) identifier */
     sku : string 
   }[];
+
+  /**
+   * Constructs a new Product instance.
+   * @param title - The title of the product
+   * @param image - The image object containing a src URL
+   * @param variants - An array of product variants
+   * @param body_html - Optional HTML description of the product
+   * @param vendor - Optional vendor name
+   * @param product_type - Optional product category
+   * @param tags - Optional tags for the product
+   */
   public constructor(
     title : string,
     image : {
@@ -105,12 +143,20 @@ class Product {
   }
 }
 
+/**
+ * Performs administrative operations using the Shopify Admin API
+ */
 export class AdminStoreFront {
+  /**@public Stores the domain used for all API calls */
   public static SHOPIFY_DOMAIN = "https://stringliteral.myshopify.com";
+  /**@private The Shopify Admin API Access Token */
   private static readonly ADMIN_ACCESS_TOKEN = "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";
-  private url = `${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
 
-  private async getActiveOrders() : Promise<any> {
+  /**
+ * Fetches all currently open orders from the Shopify store.
+ * @returns {Promise<string>} A promise that resolves to all open orders if successful, or a string message describing the error.
+ */
+  private async getActiveOrders() : Promise<string> {
     try {
       let orderQuery = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/orders.json?status=open`, {
         method: "GET",
@@ -130,9 +176,14 @@ export class AdminStoreFront {
     }
   }
   
-  private async addProduct(product : Product) : Promise<any> {
+  /**
+ * Adds a new product to the Shopify store.
+ * @param product - The product object to be added.
+ * @returns A promise that resolves to a success message with the new product ID, or an error message if the operation fails.
+ */
+  private async addProduct(product : Product) : Promise<string> {
     try {
-      let postProduct : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json`,{
+      let postProduct : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json`, {
         method : "POST",
         headers : {
           "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
@@ -143,20 +194,26 @@ export class AdminStoreFront {
         return `Could not add new product, ${postProduct.statusText}`;
       }
       const PRODUCT : any = await postProduct.json();
-      return `Added new product with ID ${PRODUCT.product.id}`
+      return `Added new product with ID ${PRODUCT.product.id}`;
     }
     catch(error : any){
       return "Encountered error: " + error;
     }
   }
 
-  protected async removeProducts(id: number) : Promise<any> {
+  /**
+ * Deletes a product from the Shopify store by its ID.
+ *
+ * @param id - The ID of the product to remove.
+ * @returns A promise that resolves to a success message if the product is deleted, or an error message if the operation fails.
+ */
+  protected async removeProducts(id: number) : Promise<string> {
     try {
       let removeRequest : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products/${id}.json`, {
         method : "DELETE",
         headers: {
-        "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
-        "Content-Type": "application/json"
+          "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
+          "Content-Type": "application/json"
         }
       });
       if (!removeRequest.ok) {
@@ -169,20 +226,26 @@ export class AdminStoreFront {
     }
   }
 
-  protected async queryProduct(title: string) : Promise<any> {
+  /**
+ * Queries the Shopify store for a product by its title.
+ *
+ * @param title - The title of the product to search for.
+ * @returns A promise that resolves to the found product's ID as a string, or an error message if the product is not found or the request fails.
+ */
+  protected async queryProduct(title: string) : Promise<string> {
     try {
-      let productQuery : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json?title=${encodeURIComponent(title)}`,{
+      let productQuery : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/products.json?title=${encodeURIComponent(title)}`, {
         method : "GET",
         headers : {
           "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN,
           "Content-Type": "application/json"
         }
       });
-      if(!productQuery.ok) {
+      if (!productQuery.ok) {
         return `Could not get specified product, ${productQuery.statusText}`;
       }
       const QUERY_RESULT : any = await productQuery.json();
-      if(!QUERY_RESULT.products || QUERY_RESULT.length === 0) {
+      if (!QUERY_RESULT.products || QUERY_RESULT.length === 0) {
         return "Could not find product";        
       }
       return `Found ID: ${QUERY_RESULT.products[0].id}`;
@@ -192,6 +255,18 @@ export class AdminStoreFront {
     }
   }
 
+  /**
+ * Edits the details of an existing product in the Shopify store.
+ * @param id - The ID of the product to edit.
+ * @param image - The image object containing a `src` URL.
+ * @param title - Optional new title for the product.
+ * @param variants - Optional updated variants for the product.
+ * @param body_html - Optional new HTML description for the product.
+ * @param vendor - Optional new vendor name.
+ * @param product_type - Optional new product type/category.
+ * @param tags - Optional new tags (comma-separated).
+ * @returns A message describing what fields were changed or an error message.
+ */
   protected async editProcductInfo(
     id : string,
     image : {
@@ -209,9 +284,9 @@ export class AdminStoreFront {
     vendor ?: string, 
     product_type ?: string, 
     tags ?: string, 
-  ) : Promise<any> {
+  ) : Promise<string> {
     let returnMsg = "Changed: "
-    const searchQuery : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=id:${encodeURIComponent(id)}`,
+    const searchQuery : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/products.json?query=id:${encodeURIComponent(id)}`,
       {
         method : "GET",
         headers : {
@@ -249,13 +324,18 @@ export class AdminStoreFront {
         returnMsg += "\nTags"
       }
       return `Updated customer information for product: ${SEARCH.products[0].title}.` + returnMsg;
-  } 
+  }
 
+  /**
+ * Retrieves the location ID from Shopify based on the given location name.
+ * @param locationName - The name of the location to search for.
+ * @returns A promise resolving to the location ID if found, or an error message if the fetch fails or the location is not found.
+ */
   protected async retrieveLocationId(locationName : string) : Promise<string> {
     try {
-      let fetchLocation : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/locations.json`,{
-        method:"GET",
-        headers : {
+      let fetchLocation : any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/locations.json`, {
+        method: "GET",
+        headers: {
           "Content-Type": "application/json",
           "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
         }
@@ -271,7 +351,7 @@ export class AdminStoreFront {
     }
   }
 
-  protected async editInventoryLevels(productId : string, variant : number, locationId : string, quantity : number) : Promise<any> {
+  protected async editInventoryLevels(productId : string, variant : number, locationId : string, quantity : number) : Promise<string> {
     //get inventory item ID
     let inventoryItemID : string = "";
     try {
@@ -314,7 +394,13 @@ export class AdminStoreFront {
     }
   }
 
-  protected async addCustomer(customerData: Customer) : Promise<any> {
+  /**
+ * Adds a new customer to the Shopify store.
+ * @param customerData - The customer data for the customer to be added.
+ * @returns A promise that resolves to a success message with the new customer ID, or an error message if the operation fails.
+ */
+  protected async addCustomer(customerData: Customer) : Promise<string> {
+    let url = `${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers.json`;
     let requestOptions: any = {
       method: "POST",
       headers: {
@@ -325,7 +411,7 @@ export class AdminStoreFront {
     };
 
     try {
-      const RESPONSE = await fetch(this.url, requestOptions);
+      const RESPONSE = await fetch(url, requestOptions);
       const RESPONDE_BODY = await RESPONSE.json();
 
       if (!RESPONSE.ok) {
@@ -339,42 +425,60 @@ export class AdminStoreFront {
       return "Error creating customer:" + error;
     }
   }  
-  protected async updateCustomer(email : string, first_name ?: string, last_name ?: string, newEmail ?: string, phone ?: string, verified ?: boolean) : Promise<any> {
+
+/**
+ * Searches for a customer by email and updates their information with the provided data.
+ *
+ * @param email - The current email address of the customer to update.
+ * @param first_name - Optional new first name.
+ * @param last_name - Optional new last name.
+ * @param newEmail - Optional new email address.
+ * @param phone - Optional new phone number.
+ * @param verified - Optional new email verification status.
+ * @returns A message indicating which fields were updated or if the customer was not found.
+ */
+  protected async updateCustomer(
+    email: string,
+    first_name?: string,
+    last_name?: string,
+    newEmail?: string,
+    phone?: string,
+    verified?: boolean
+  ): Promise<string> {
     //searches for a customer with given email, when found, update them with given customer data 
-    let returnMsg : string = "Changed:";
-    const searchQuery : any = await fetch (`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`,
-    {
-      method : "GET",
-      headers : {
+    let returnMsg: string = "Changed:";
+    const searchQuery: any = await fetch(`${AdminStoreFront.SHOPIFY_DOMAIN}/admin/api/2025-04/customers/search.json?query=email:${encodeURIComponent(email)}`, {
+      method: "GET",
+      headers: {
         "Content-Type": "application/json",
         "X-Shopify-Access-Token": AdminStoreFront.ADMIN_ACCESS_TOKEN
       }
     });
-    const SEARCH : any = await searchQuery.json();
+    const SEARCH: any = await searchQuery.json();
     //check if response is valid
     if (!SEARCH.customers || SEARCH.length === 0) {
       console.log("customer not found");
     }
     if (first_name !== undefined) {
       SEARCH.customers[0].first_name = first_name;
-      returnMsg += "\nFirst name"
+      returnMsg += "\nFirst name";
     }
     if (last_name !== undefined) {
       SEARCH.customers[0].last_name = last_name;
-      returnMsg += "\nLast name"
+      returnMsg += "\nLast name";
     }
-    if (newEmail!==undefined){
-      SEARCH.customers[0].email=newEmail;
-      returnMsg += "\nEmail"
+    if (newEmail !== undefined) {
+      SEARCH.customers[0].email = newEmail;
+      returnMsg += "\nEmail";
     }
-    if (phone!==undefined){
-      SEARCH.customers[0].phone=phone;
-      returnMsg += "\nPhone number"
+    if (phone !== undefined) {
+      SEARCH.customers[0].phone = phone;
+      returnMsg += "\nPhone number";
     }
-    if (verified!==undefined){
-      SEARCH.customers[0].verified_email=verified;
-      returnMsg += "\nVerification status"
+    if (verified !== undefined) {
+      SEARCH.customers[0].verified_email = verified;
+      returnMsg += "\nVerification status";
     }
     return `Updated customer information for customer: ${SEARCH.customers[0].id}.` + returnMsg;
-  } 
+  }
 }
